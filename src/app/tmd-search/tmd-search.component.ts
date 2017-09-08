@@ -59,7 +59,6 @@ export class TmdSearchComponent implements OnInit {
     queryParameters['query'] = this.searchQuery;
     queryParameters['page'] = page;
     queryParameters['include_adult'] = this.forAdults;
-    //queryParameters['year'] = 1999;
     return queryParameters;
   }
 }

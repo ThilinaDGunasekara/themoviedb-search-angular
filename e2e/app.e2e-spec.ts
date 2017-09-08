@@ -9,6 +9,13 @@ describe('themoviedb-search App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to app!');
+    expect(page.getTitleText()).toEqual('The Movie Database Search');
   });
+
+  it('should have app-tmd-search directive', () => {
+    page.navigateTo();
+    expect(page.getContentSectionContents()).toBeTruthy();
+  });
+
+
 });
