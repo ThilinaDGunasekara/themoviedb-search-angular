@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import * as config from './config.json';
 import { TmdSearchService } from './tmd-search.service';
-import { SearchQueryParameters } from './search-query-parameters.model'
+import { SearchQueryParameters } from './search-query-parameters.model';
 
 @Component({
   selector: 'app-tmd-search',
@@ -16,12 +16,12 @@ import { SearchQueryParameters } from './search-query-parameters.model'
  */
 export class TmdSearchComponent implements OnInit {
   movies: Object = {};
-  totalPages: number = 0;
+  totalPages = 0;
   imageBaseUrl: string = config['image-url'];
-  searchQuery: string = '';
-  forAdults: boolean = false;
+  searchQuery = '';
+  forAdults = false;
   pages: Array<number> = [];
-  currentPage: number = 1;
+  currentPage = 1;
 
   constructor(private tmdSearchService: TmdSearchService) {}
 
@@ -32,7 +32,7 @@ export class TmdSearchComponent implements OnInit {
    * @param {number} page - page number parameter for the API (default 1)
    */
   search(page: number = 1): void {
-    if(!this.searchQuery.length) {
+    if (!this.searchQuery.length) {
       return;
     }
 
@@ -48,14 +48,14 @@ export class TmdSearchComponent implements OnInit {
   private handleResponse(response) {
     this.movies = response;
     this.pages.length = 0;
-    for(let i = 0; i < response.total_pages; ++i) {
+    for (let i = 0; i < response.total_pages; ++i) {
       this.pages.push(i + 1);
     }
     this.currentPage = response.page;
   }
 
   private prepareQueryParameters(page: number): SearchQueryParameters {
-    let queryParameters = new SearchQueryParameters();
+    const queryParameters = new SearchQueryParameters();
     queryParameters['query'] = this.searchQuery;
     queryParameters['page'] = page;
     queryParameters['include_adult'] = this.forAdults;

@@ -1,6 +1,6 @@
 export class SearchQueryParameters {
-  language: string = 'en-US';
-  query: string = '';
+  language = 'en-US';
+  query = '';
   page: number;
   include_adult: boolean;
   year: number;

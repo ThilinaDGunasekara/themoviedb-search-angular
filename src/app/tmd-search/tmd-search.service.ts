@@ -3,7 +3,7 @@ import { Http, URLSearchParams, QueryEncoder } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 import * as config from './config.json';
-import { SearchQueryParameters } from './search-query-parameters.model'
+import { SearchQueryParameters } from './search-query-parameters.model';
 
 @Injectable()
 /**
@@ -22,19 +22,18 @@ export class TmdSearchService {
    * @return {Observable} - returns Observable to be handled outside
    */
   searchMovie(route: string, queryParameters: SearchQueryParameters) {
-      if(queryParameters.query === '') {
+      if (queryParameters.query === '') {
         return null;
       }
-      let endpoint: string = config['api-url'] + route;
-      let queryParametersKeys: Array<string> = Object.keys(queryParameters);
-      let queryEncoder: QueryEncoder = new QueryEncoder();
-      let searchParameters: URLSearchParams = new URLSearchParams();
+      const endpoint: string = config['api-url'] + route;
+      const queryParametersKeys: Array<string> = Object.keys(queryParameters);
+      const searchParameters: URLSearchParams = new URLSearchParams();
 
       searchParameters.set('api_key', config['api-key']);
 
-      for(let key of queryParametersKeys) {
-        if(typeof queryParameters[key] !== 'undefined') {
-          searchParameters.set(key, queryEncoder.encodeKey(queryParameters[key]));
+      for (const key of queryParametersKeys) {
+        if (typeof queryParameters[key] !== 'undefined') {
+          searchParameters.set(key, queryParameters[key]);
         }
       }
 

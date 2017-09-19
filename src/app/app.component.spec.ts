@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { TmdSearchService } from './tmd-search/tmd-search.service';
 import { TmdSearchComponent } from './tmd-search/tmd-search.component';
-import { SearchQueryParameters } from './tmd-search/search-query-parameters.model'
+import { SearchQueryParameters } from './tmd-search/search-query-parameters.model';
 
 describe('AppComponent', () => {
 
@@ -46,13 +46,13 @@ describe('AppComponent', () => {
 
   it(`should have section app-header`, async(() => {
     const fixture = TestBed.createComponent(AppComponent);
-    let section1 = fixture.nativeElement.querySelector('section#app-header');
+    const section1 = fixture.nativeElement.querySelector('section#app-header');
     expect(section1).not.toBeNull();
   }));
 
   it(`should have section app-content`, async(() => {
     const fixture = TestBed.createComponent(AppComponent);
-    let section2 = fixture.nativeElement.querySelector('section#app-content');
+    const section2 = fixture.nativeElement.querySelector('section#app-content');
     expect(section2).not.toBeNull();
   }));
 });

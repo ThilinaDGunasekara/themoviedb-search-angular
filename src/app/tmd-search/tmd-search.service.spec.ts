@@ -9,7 +9,7 @@ import {
 import { MockBackend } from '@angular/http/testing';
 
 import { TmdSearchService } from './tmd-search.service';
-import { SearchQueryParameters } from './search-query-parameters.model'
+import { SearchQueryParameters } from './search-query-parameters.model';
 
 describe('TmdSearchService', () => {
   const mockResponse = {
@@ -41,7 +41,7 @@ describe('TmdSearchService', () => {
     inject([TmdSearchService, Http], (service, http) =>
   {
     expect(service).toBeTruthy();
-    let queryParameters = new SearchQueryParameters();
+    const queryParameters = new SearchQueryParameters();
     spyOn(http, 'get').and.callThrough();
     expect(service.searchMovie('/search/movies', queryParameters)).toBeNull();
     expect(http.get).not.toHaveBeenCalled();
@@ -55,11 +55,11 @@ describe('TmdSearchService', () => {
         })));
       });
       expect(service).toBeTruthy();
-      let queryParameters = new SearchQueryParameters();
+      const queryParameters = new SearchQueryParameters();
       queryParameters.query = 'Matrix';
       spyOn(http, 'get').and.callThrough();
       service.searchMovie('/search/movies', queryParameters).subscribe(res => {
-        expect(res).toEqual({id:'5'});
+        expect(res).toEqual({id: '5'});
         done();
       });
       expect(http.get).toHaveBeenCalled();
@@ -74,12 +74,12 @@ describe('TmdSearchService', () => {
         })));
       });
       expect(service).toBeTruthy();
-      let queryParameters = new SearchQueryParameters();
+      const queryParameters = new SearchQueryParameters();
       queryParameters.query = 'Pirates';
       queryParameters.include_adult = true;
       spyOn(http, 'get').and.callThrough();
       service.searchMovie('/search/movies', queryParameters).subscribe(res => {
-        expect(res).toEqual({id:'5'});
+        expect(res).toEqual({id: '5'});
         done();
       });
       expect(http.get).toHaveBeenCalled();
