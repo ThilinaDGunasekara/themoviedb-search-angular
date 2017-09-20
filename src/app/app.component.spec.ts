@@ -1,16 +1,18 @@
 import { TestBed, async } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { TmdSearchService } from './tmd-search/tmd-search.service';
 import { TmdSearchComponent } from './tmd-search/tmd-search.component';
-import { SearchQueryParameters } from './tmd-search/search-query-parameters.model'
+import { SearchParameters } from './tmd-search/search-parameters.model';
+import { PaginationComponent } from './tmd-search/pagination/pagination.component';
+import { SearchItemComponent } from './tmd-search/search-item/search-item.component';
 
 describe('AppComponent', () => {
 
   class TmdSearchServiceStub {
-    searchMovie(route: string, searchQueryParameters: SearchQueryParameters): Observable<any> {
+    searchMovie(route: string, searchQueryParameters: SearchParameters): Observable<any> {
       return new Observable((observer) => {
         observer.complete();
       });
@@ -21,10 +23,12 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
-        TmdSearchComponent
+        TmdSearchComponent,
+        PaginationComponent,
+        SearchItemComponent
       ],
       imports: [
-        FormsModule
+        ReactiveFormsModule
       ],
       providers: [
         {provide: TmdSearchService, useClass: TmdSearchServiceStub}
@@ -46,13 +50,13 @@ describe('AppComponent', () => {
 
   it(`should have section app-header`, async(() => {
     const fixture = TestBed.createComponent(AppComponent);
-    let section1 = fixture.nativeElement.querySelector('section#app-header');
+    const section1 = fixture.nativeElement.querySelector('section#app-header');
     expect(section1).not.toBeNull();
   }));
 
   it(`should have section app-content`, async(() => {
     const fixture = TestBed.createComponent(AppComponent);
-    let section2 = fixture.nativeElement.querySelector('section#app-content');
+    const section2 = fixture.nativeElement.querySelector('section#app-content');
     expect(section2).not.toBeNull();
   }));
 });

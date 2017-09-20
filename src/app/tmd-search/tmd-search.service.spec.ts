@@ -1,88 +1,74 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { TestBed, getTestBed, inject } from '@angular/core/testing';
 import {
-  HttpModule,
-  Http,
-  Response,
-  ResponseOptions,
-  XHRBackend
-} from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
+import { HttpUrlEncodingCodec } from '@angular/common/http';
 
+import * as config from './config.json';
 import { TmdSearchService } from './tmd-search.service';
-import { SearchQueryParameters } from './search-query-parameters.model'
+import { SearchParameters } from './search-parameters.model';
 
 describe('TmdSearchService', () => {
+  let http: HttpTestingController;
+  let service: TmdSearchService;
+  const urlCodec = new HttpUrlEncodingCodec();
+
   const mockResponse = {
     id: '5'
   };
 
-  function customEquality(expected: any, value: any): boolean {
-    return JSON.stringify(expected).trim() === JSON.stringify(value).trim();
-  }
-
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpModule],
-      providers: [
-        TmdSearchService,
-        {provide: XHRBackend, useClass: MockBackend}
-      ]
+      imports: [HttpClientTestingModule],
+      providers: [TmdSearchService]
     });
-    jasmine.addCustomEqualityTester(customEquality);
+
+    http = TestBed.get(HttpTestingController);
+    service = TestBed.get(TmdSearchService);
   });
 
-  it('should be created',
-    inject([TmdSearchService], (service) =>
-  {
+  it('should be created', () => {
     expect(service).toBeTruthy();
-  }));
+  });
 
-  it('should return when no query provided',
-    inject([TmdSearchService, Http], (service, http) =>
-  {
+  it('should return when no query provided', () => {
     expect(service).toBeTruthy();
-    let queryParameters = new SearchQueryParameters();
-    spyOn(http, 'get').and.callThrough();
-    expect(service.searchMovie('/search/movies', queryParameters)).toBeNull();
-    expect(http.get).not.toHaveBeenCalled();
-  }));
+    const queryParameters = new SearchParameters();
+    expect(service.searchMovie(queryParameters)).toBeNull();
+    http.expectNone(config['api-url'] + '/search/movie');
+    http.verify();
+  });
 
   it('should generate proper GET request - query provided', function(done) {
-    inject([TmdSearchService, XHRBackend, Http], (service, mockBackend, http) => {
-      mockBackend.connections.subscribe((connection) => {
-        connection.mockRespond(new Response(new ResponseOptions({
-          body: JSON.stringify(mockResponse)
-        })));
-      });
-      expect(service).toBeTruthy();
-      let queryParameters = new SearchQueryParameters();
-      queryParameters.query = 'Matrix';
-      spyOn(http, 'get').and.callThrough();
-      service.searchMovie('/search/movies', queryParameters).subscribe(res => {
-        expect(res).toEqual({id:'5'});
-        done();
-      });
-      expect(http.get).toHaveBeenCalled();
-    })();
+    expect(service).toBeTruthy();
+    const queryParameters = new SearchParameters();
+    queryParameters.searchQuery = 'Matrix';
+    service.searchMovie(queryParameters).subscribe(res => {
+      expect(res).toEqual({id: '5'});
+      done();
+    });
+    const expectation = http.expectOne({
+      url: config['api-url'] + '/search/movie?api_key=' +
+      urlCodec.encodeKey(config['api-key']) + '&language=en-US&query=Matrix'});
+    expect(expectation.request.method).toEqual('GET');
+    expectation.flush(mockResponse);
+    http.verify();
   });
 
   it('should generate proper GET request with custom parameters', function(done) {
-    inject([TmdSearchService, XHRBackend, Http], (service, mockBackend, http) => {
-      mockBackend.connections.subscribe((connection) => {
-        connection.mockRespond(new Response(new ResponseOptions({
-          body: JSON.stringify(mockResponse)
-        })));
-      });
-      expect(service).toBeTruthy();
-      let queryParameters = new SearchQueryParameters();
-      queryParameters.query = 'Pirates';
-      queryParameters.include_adult = true;
-      spyOn(http, 'get').and.callThrough();
-      service.searchMovie('/search/movies', queryParameters).subscribe(res => {
-        expect(res).toEqual({id:'5'});
-        done();
-      });
-      expect(http.get).toHaveBeenCalled();
-    })();
+    expect(service).toBeTruthy();
+    const queryParameters = new SearchParameters('Pirates of', true, 3);
+    service.searchMovie(queryParameters).subscribe(res => {
+      expect(res).toEqual({id: '5'});
+      done();
+    });
+    const expectation = http.expectOne({
+      url: config['api-url'] + '/search/movie?api_key=' +
+      urlCodec.encodeKey(config['api-key']) +
+      '&language=en-US&query=Pirates%20of&include_adult=true&page=3'});
+    expect(expectation.request.method).toEqual('GET');
+    expectation.flush(mockResponse);
+    http.verify();
   });
 });

@@ -1,33 +1,19 @@
 <div id="tmd-container" class="container padding">
-  <div class="row">
-    <div class="col-md-5 col-md-offset-3">
-      <input id="tmd-search-input" class="form-control" [(ngModel)]="searchQuery" type="text" value="" placeholder="Enter movie title" />
-      <div class="checkbox">
-        <label><input id="tmd-for-adults" [(ngModel)]="forAdults" type="checkbox" />Display adult movies</label>
-      </div>
-    </div>
-    <div class="col-md-1 text-center">
-      <button id="tmd-search-button" class="btn btn-primary" type="button" (click)="search()">Search</button>
-    </div>
-  </div>
-  <div class="tmd-result-item" *ngFor="let movie of movies.results">
+  <form [formGroup]="searchForm" (ngSubmit)="onSubmit(searchForm)">
     <div class="row">
-      <div class="col-sm-4 col-md-3 col-md-offset-3 align-middle">
-        <img *ngIf="movie.poster_path" src="{{imageBaseUrl + movie.poster_path}}" alt="Poster">
-        <div *ngIf="!movie.poster_path" class="image-border"></div>
+      <div class="col-md-5 col-md-offset-3">
+        <input id="tmd-search-input" formControlName="searchQuery" class="form-control" type="text" placeholder="Enter movie title" required />
+        <div class="checkbox">
+          <label><input id="tmd-for-adults" formControlName="forAdults" type="checkbox" />Display adult movies</label>
+        </div>
       </div>
-      <div class="col-sm-4 col-md-3">
-        <h2 class="font-bold">{{movie.title}} <span *ngIf="movie.release_date"></span>({{movie.release_date.substr(0, 4)}})</h2>
-        <h4 *ngIf="movie.vote_average">Rate {{movie.vote_average}}/10</h4>
-        <h5 *ngIf="movie.overview.length < 300">{{movie.overview}}</h5>
-        <h5 *ngIf="movie.overview.length >= 300">{{movie.overview.substr(0, 300)}}...</h5>
+      <div class="col-md-1 text-center">
+        <button id="tmd-search-button" class="btn btn-primary" type="submit">Search</button>
       </div>
     </div>
+  </form>
+  <div class="tmd-result-item" *ngFor="let movie of movies.results">
+    <app-search-item [movie]="movie"></app-search-item>
   </div>
-  <div class="text-center">
-    <span class="pagination" *ngFor="let page of pages">
-      <a class="pagination-link padding-lr" *ngIf="page != currentPage" (click)="search(page)">{{page}}</a>
-      <b class="padding-lr" *ngIf="page == currentPage">{{page}}</b>
-    </span>
-  </div>
+  <app-pagination [page]="page" [pages]="pages" (onPageChange)=setPage($event)></app-pagination>
 </div>

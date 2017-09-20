@@ -6,24 +6,3 @@
     padding-bottom: 2em;
   }
 }
-
-.image-border {
-  border: solid 1px #999999;
-  width: 185px;
-  height: 278px;
-}
-
-.pagination {
-  margin-bottom: 50px;
-}
-
-.pagination-link {
-  &:hover {
-    cursor: pointer;
-  }
-}
-
-.padding-lr {
-  padding-left: 5px;
-  padding-right: 5px;
-}

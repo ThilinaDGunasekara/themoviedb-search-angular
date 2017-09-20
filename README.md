@@ -5,7 +5,7 @@ This is a user interface for The Movie Database search API written in Angular 4.
 
 ## About the project
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.3.2. It uses Angular version 4 with Bootstrap ^3.3.7. Unit tests were written using Jasmine and Karma as the test runner, test-driven development (TDD) was used. Project is compatible with the official Angular 2/4 styleguide: https://angular.io/guide/styleguide. Public functions are documented using JSDoc. Besides the main AppModule with app.component.ts and app.component.spec.ts (with unit tests) project was divided into several modules with their own components/services:
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.2. It uses Angular version 4 with Bootstrap ^3.3.7. Unit tests were written using Jasmine and Karma as the test runner, test-driven development (TDD) was used. Project is compatible with the official Angular 2/4 styleguide: https://angular.io/guide/styleguide. Public functions are documented using JSDoc. Besides the main AppModule with app.component.ts and app.component.spec.ts (with unit tests) project was divided into several modules with their own components/services:
 
 - core - module with global services loaded once during application startup in the AppModule (services are singletons thus this module cannot be included anywhere else in the project)
 - shared - module with shared components without services, the components placed in here can be reused (included multiple times) within a project
@@ -21,11 +21,18 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Requirements
 
-Node 6.9.0 or higher is required, together with NPM 3 or higher. To use below commands Angular CLI must be globally installed via `npm install -g @angular/cli`.
+Node 6.9.0 or higher is required, together with NPM 3 or higher. To use 'ng' commands Angular CLI must be globally installed via `npm install -g @angular/cli`, otherwise you can use `npm` commands below.
 
 ## Installation
 
-After cloning this repo, run `npm install` in the project folder. Then you need to generate your own API key to access https://api.themoviedb.org/3. This key should be pasted in the '%project%/src/app/tmd-search/config.json' file, instead of \<key>. Now you can use below commands and test the app. To serve the app invoke `ng serve` in the project folder and navigate to `http://localhost:4200` in the browser. To run unit tests with Karma invoke `ng test`.
+After cloning this repo, run `npm install` in the project folder. Then you need to generate your own API key to access https://api.themoviedb.org/3. This key should be pasted in the '%project%/src/app/tmd-search/config.json' file, instead of \<key>. Now you can use `npm` commands:
+- `npm start` to serve the app (then navigate to `http://localhost:4200` in the browser)
+- `npm test` to run unit tests with Karma
+- `npm run e2e` to run e2e tests
+- `npm run lint` to run linter
+- `npm test -- --code-coverage` to genereate code coverage report
+
+If Angular CLI is installed globally you can use below commands.
 
 ## Development server
 
