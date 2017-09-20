@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Http, URLSearchParams, QueryEncoder } from '@angular/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs/Rx';
-import 'rxjs/add/operator/map';
 
 import * as config from './config.json';
 import { SearchParameters } from './search-parameters.model';
@@ -13,8 +12,9 @@ import { SearchParameters } from './search-parameters.model';
  * @class
  */
 export class TmdSearchService {
+  searchParameters: HttpParams;
 
-  constructor(private http: Http) {}
+  constructor(private http: HttpClient) {}
 
   /**
    * Main service's method to search for a movie
@@ -27,30 +27,27 @@ export class TmdSearchService {
       return null;
     }
     const endpoint: string = config['api-url'] + '/search/movie';
-    const searchParameters: URLSearchParams = new URLSearchParams();
-    this.addHeaders(queryParameters, searchParameters);
-    return this.http.get(endpoint, {search: searchParameters})
-      .map(res => res.json());
+    this.searchParameters = new HttpParams();
+    this.addParams(queryParameters);
+    return this.http.get(endpoint, { params: this.searchParameters });
   }
 
-  private addHeaders(
-    queryParameters: SearchParameters, searchParameters: URLSearchParams)
+  private addParams(queryParameters: SearchParameters)
   {
-    searchParameters.set('api_key', config['api-key']);
-    searchParameters.set('language', 'en-US');
-    this.checkAndAddHeader('query', queryParameters.searchQuery, searchParameters);
-    this.checkAndAddHeader('include_adult', queryParameters.adult, searchParameters);
-    this.checkAndAddHeader('page', queryParameters.page, searchParameters);
+    this.searchParameters = this.searchParameters.set('api_key', config['api-key']);
+    this.searchParameters = this.searchParameters.set('language', 'en-US');
+    this.verifyAndAddToParams('query', queryParameters.searchQuery);
+    this.verifyAndAddToParams('include_adult', queryParameters.adult);
+    this.verifyAndAddToParams('page', queryParameters.page);
   }
 
-  private checkAndAddHeader(
-    key: any, value: any, searchParameters: URLSearchParams)
+  private verifyAndAddToParams(key: any, value: any)
   {
     if (typeof value !== 'undefined') {
       if (typeof value !== 'string') {
-        searchParameters.set(key, String(value));
+        this.searchParameters = this.searchParameters.set(key, String(value));
       } else {
-        searchParameters.set(key, value);
+        this.searchParameters = this.searchParameters.set(key, value);
       }
     }
   }
