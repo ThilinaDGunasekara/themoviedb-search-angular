@@ -18,6 +18,14 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
   - tmd-search.component.scss - SCSS/CSS styles for the HTML template
   - tmd.search.service.ts - Service responsible for handling HTTP communication via GET request with a search parameters
   - tmd.search.service.spec.ts - unit tests for the service
+  - pagination/pagination.component.ts - Component which implements pagination
+  - pagination/pagination.component.spec.ts - Unit tests for pagination
+  - pagination/pagination.component.scss - pagination SCSS/CSS styles
+  - pagination/pagination.component.html - pagination HTML template  
+  - search-item/search-item.component.ts - Component which renders one search item
+  - search-item/search-item.component.spec.ts - Unit tests for the search-item component
+  - search-item/search-item.component.scss - search-item SCSS/CSS styles
+  - search-item/search-item.component.html - search-item HTML template
 
 ## Requirements
 
