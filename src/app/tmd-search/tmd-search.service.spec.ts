@@ -9,7 +9,7 @@ import {
 import { MockBackend } from '@angular/http/testing';
 
 import { TmdSearchService } from './tmd-search.service';
-import { SearchQueryParameters } from './search-query-parameters.model';
+import { SearchParameters } from './search-parameters.model';
 
 describe('TmdSearchService', () => {
   const mockResponse = {
@@ -41,9 +41,9 @@ describe('TmdSearchService', () => {
     inject([TmdSearchService, Http], (service, http) =>
   {
     expect(service).toBeTruthy();
-    const queryParameters = new SearchQueryParameters();
+    const queryParameters = new SearchParameters();
     spyOn(http, 'get').and.callThrough();
-    expect(service.searchMovie('/search/movies', queryParameters)).toBeNull();
+    expect(service.searchMovie(queryParameters)).toBeNull();
     expect(http.get).not.toHaveBeenCalled();
   }));
 
@@ -55,10 +55,10 @@ describe('TmdSearchService', () => {
         })));
       });
       expect(service).toBeTruthy();
-      const queryParameters = new SearchQueryParameters();
-      queryParameters.query = 'Matrix';
+      const queryParameters = new SearchParameters();
+      queryParameters.searchQuery = 'Matrix';
       spyOn(http, 'get').and.callThrough();
-      service.searchMovie('/search/movies', queryParameters).subscribe(res => {
+      service.searchMovie(queryParameters).subscribe(res => {
         expect(res).toEqual({id: '5'});
         done();
       });
@@ -74,11 +74,11 @@ describe('TmdSearchService', () => {
         })));
       });
       expect(service).toBeTruthy();
-      const queryParameters = new SearchQueryParameters();
-      queryParameters.query = 'Pirates';
-      queryParameters.include_adult = true;
+      const queryParameters = new SearchParameters();
+      queryParameters.searchQuery = 'Pirates';
+      queryParameters.adult = true;
       spyOn(http, 'get').and.callThrough();
-      service.searchMovie('/search/movies', queryParameters).subscribe(res => {
+      service.searchMovie(queryParameters).subscribe(res => {
         expect(res).toEqual({id: '5'});
         done();
       });

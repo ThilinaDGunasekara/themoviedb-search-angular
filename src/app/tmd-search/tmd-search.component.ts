@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
 
 import * as config from './config.json';
 import { TmdSearchService } from './tmd-search.service';
-import { SearchQueryParameters } from './search-query-parameters.model';
+import { SearchParameters } from './search-parameters.model';
 
 @Component({
   selector: 'app-tmd-search',
@@ -10,39 +11,71 @@ import { SearchQueryParameters } from './search-query-parameters.model';
   styleUrls: ['./tmd-search.component.scss']
 })
 /**
- * Component which handles 'The Movie Database' API communication
- * and data presentation
+ * Component which calls the service and handles data presentation
+ *
  * @class
  */
 export class TmdSearchComponent implements OnInit {
   movies: Object = {};
   totalPages = 0;
   imageBaseUrl: string = config['image-url'];
-  searchQuery = '';
+  searchQuery: '';
   forAdults = false;
+  page = 1;
+  paginationPage = 1;
   pages: Array<number> = [];
-  currentPage = 1;
+  searchForm: FormGroup;
 
   constructor(private tmdSearchService: TmdSearchService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.searchForm = new FormGroup({
+      searchQuery: new FormControl(''),
+      forAdults: new FormControl(false)
+    });
+  }
 
   /**
-   * Main callback to handle and the API query with a given parameters
+   * Callback to handle the API query with a given parameters (from pagination)
    * @param {number} page - page number parameter for the API (default 1)
    */
-  search(page: number = 1): void {
-    if (!this.searchQuery.length) {
-      return;
-    }
-
-    const route = '/search/movie';
-    this.tmdSearchService.searchMovie(route, this.prepareQueryParameters(page))
+  setPage(page: number = 1): void {
+    this.tmdSearchService.searchMovie(this.packSearchParameters(page))
       .subscribe(
         res => this.handleResponse(res),
         err => console.error(err),
         () => {}
       );
+  }
+
+  /**
+   * Callback to handle the API query with a given parameters (from form)
+   * @param {FormGroup} form - form from the view (HTML)
+   */
+  onSubmit(form: FormGroup) {
+    if (form.valid) {
+      this.tmdSearchService.searchMovie(this.packSearchParametersForm(form))
+        .subscribe(
+          res => this.handleResponse(res),
+          err => console.error(err),
+          () => {}
+        );
+    }
+  }
+
+  private packSearchParametersForm(form: FormGroup): SearchParameters {
+    return new SearchParameters(
+      this.searchQuery = form.value.searchQuery,
+      this.forAdults = form.value.forAdults
+    );
+  }
+
+  private packSearchParameters(page: number): SearchParameters {
+    return new SearchParameters(
+      this.searchQuery,
+      this.forAdults,
+      page
+    );
   }
 
   private handleResponse(response) {
@@ -51,14 +84,6 @@ export class TmdSearchComponent implements OnInit {
     for (let i = 0; i < response.total_pages; ++i) {
       this.pages.push(i + 1);
     }
-    this.currentPage = response.page;
-  }
-
-  private prepareQueryParameters(page: number): SearchQueryParameters {
-    const queryParameters = new SearchQueryParameters();
-    queryParameters['query'] = this.searchQuery;
-    queryParameters['page'] = page;
-    queryParameters['include_adult'] = this.forAdults;
-    return queryParameters;
+    this.paginationPage = response.page;
   }
 }

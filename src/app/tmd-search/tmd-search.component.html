@@ -1,15 +1,17 @@
 <div id="tmd-container" class="container padding">
-  <div class="row">
-    <div class="col-md-5 col-md-offset-3">
-      <input id="tmd-search-input" class="form-control" [(ngModel)]="searchQuery" type="text" value="" placeholder="Enter movie title" />
-      <div class="checkbox">
-        <label><input id="tmd-for-adults" [(ngModel)]="forAdults" type="checkbox" />Display adult movies</label>
+  <form [formGroup]="searchForm" (ngSubmit)="onSubmit(searchForm)">
+    <div class="row">
+      <div class="col-md-5 col-md-offset-3">
+        <input id="tmd-search-input" formControlName="searchQuery" class="form-control" type="text" placeholder="Enter movie title" required />
+        <div class="checkbox">
+          <label><input id="tmd-for-adults" formControlName="forAdults" type="checkbox" />Display adult movies</label>
+        </div>
+      </div>
+      <div class="col-md-1 text-center">
+        <button id="tmd-search-button" class="btn btn-primary" type="submit">Search</button>
       </div>
     </div>
-    <div class="col-md-1 text-center">
-      <button id="tmd-search-button" class="btn btn-primary" type="button" (click)="search()">Search</button>
-    </div>
-  </div>
+  </form>
   <div class="tmd-result-item" *ngFor="let movie of movies.results">
     <div class="row">
       <div class="col-sm-4 col-md-3 col-md-offset-3 align-middle">
@@ -26,8 +28,8 @@
   </div>
   <div class="text-center">
     <span class="pagination" *ngFor="let page of pages">
-      <a class="pagination-link padding-lr" *ngIf="page != currentPage" (click)="search(page)">{{page}}</a>
-      <b class="padding-lr" *ngIf="page == currentPage">{{page}}</b>
+      <a class="pagination-link padding-lr" *ngIf="page != paginationPage" (click)="setPage(page)">{{page}}</a>
+      <b class="padding-lr" *ngIf="page == paginationPage">{{page}}</b>
     </span>
   </div>
 </div>
