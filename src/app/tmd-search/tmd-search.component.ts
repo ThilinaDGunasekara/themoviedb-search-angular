@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 
-import * as config from './config.json';
 import { TmdSearchService } from './tmd-search.service';
 import { SearchParameters } from './search-parameters.model';
+import { PaginationComponent } from './pagination/pagination.component';
+import { SearchItemComponent } from './search-item/search-item.component';
 
 @Component({
   selector: 'app-tmd-search',
@@ -18,11 +19,9 @@ import { SearchParameters } from './search-parameters.model';
 export class TmdSearchComponent implements OnInit {
   movies: Object = {};
   totalPages = 0;
-  imageBaseUrl: string = config['image-url'];
   searchQuery: '';
   forAdults = false;
   page = 1;
-  paginationPage = 1;
   pages: Array<number> = [];
   searchForm: FormGroup;
 
@@ -84,6 +83,5 @@ export class TmdSearchComponent implements OnInit {
     for (let i = 0; i < response.total_pages; ++i) {
       this.pages.push(i + 1);
     }
-    this.paginationPage = response.page;
   }
 }

@@ -5,6 +5,8 @@ import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { TmdSearchComponent } from './tmd-search.component';
 import { TmdSearchService } from './tmd-search.service';
 import { SearchParameters } from './search-parameters.model';
+import { PaginationComponent } from './pagination/pagination.component';
+import { SearchItemComponent } from './search-item/search-item.component';
 
 describe('TmdSearchComponent', () => {
   let component: TmdSearchComponent;
@@ -43,7 +45,11 @@ describe('TmdSearchComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [TmdSearchComponent],
+      declarations: [
+        TmdSearchComponent,
+        PaginationComponent,
+        SearchItemComponent
+      ],
       imports: [
         ReactiveFormsModule
       ],

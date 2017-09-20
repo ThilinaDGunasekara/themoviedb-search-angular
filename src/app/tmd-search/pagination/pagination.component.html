@@ -1,0 +1,6 @@
+<div class="text-center">
+  <span class="pagination" *ngFor="let page of pages">
+    <a class="pagination-link padding-lr" *ngIf="page != paginationPage" (click)="setPage(page)">{{page}}</a>
+    <b class="padding-lr" *ngIf="page == paginationPage">{{page}}</b>
+  </span>
+</div>

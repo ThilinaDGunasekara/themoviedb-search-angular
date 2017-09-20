@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { TmdSearchService } from './tmd-search/tmd-search.service';
 import { TmdSearchComponent } from './tmd-search/tmd-search.component';
 import { SearchParameters } from './tmd-search/search-parameters.model';
+import { PaginationComponent } from './tmd-search/pagination/pagination.component';
+import { SearchItemComponent } from './tmd-search/search-item/search-item.component';
 
 describe('AppComponent', () => {
 
@@ -21,7 +23,9 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
-        TmdSearchComponent
+        TmdSearchComponent,
+        PaginationComponent,
+        SearchItemComponent
       ],
       imports: [
         ReactiveFormsModule

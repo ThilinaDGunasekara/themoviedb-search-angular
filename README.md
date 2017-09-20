@@ -5,7 +5,7 @@ This is a user interface for The Movie Database search API written in Angular 4.
 
 ## About the project
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.3.2. It uses Angular version 4 with Bootstrap ^3.3.7. Unit tests were written using Jasmine and Karma as the test runner, test-driven development (TDD) was used. Project is compatible with the official Angular 2/4 styleguide: https://angular.io/guide/styleguide. Public functions are documented using JSDoc. Besides the main AppModule with app.component.ts and app.component.spec.ts (with unit tests) project was divided into several modules with their own components/services:
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.2. It uses Angular version 4 with Bootstrap ^3.3.7. Unit tests were written using Jasmine and Karma as the test runner, test-driven development (TDD) was used. Project is compatible with the official Angular 2/4 styleguide: https://angular.io/guide/styleguide. Public functions are documented using JSDoc. Besides the main AppModule with app.component.ts and app.component.spec.ts (with unit tests) project was divided into several modules with their own components/services:
 
 - core - module with global services loaded once during application startup in the AppModule (services are singletons thus this module cannot be included anywhere else in the project)
 - shared - module with shared components without services, the components placed in here can be reused (included multiple times) within a project

@@ -5,6 +5,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { TmdSearchComponent } from './tmd-search.component';
 import { TmdSearchService } from './tmd-search.service';
+import { PaginationComponent } from './pagination/pagination.component';
+import { SearchItemComponent } from './search-item/search-item.component';
 
 @NgModule({
   imports: [
@@ -15,7 +17,7 @@ import { TmdSearchService } from './tmd-search.service';
   exports: [
     TmdSearchComponent
   ],
-  declarations: [TmdSearchComponent],
+  declarations: [TmdSearchComponent, PaginationComponent, SearchItemComponent],
   providers: [TmdSearchService]
 })
 export class TmdSearchModule { }
