@@ -1,5 +1,5 @@
 # The Movie Database API search UI
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/mar753/themoviedb-search/master/LICENSE)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/mar753/themoviedb-search-angular/master/LICENSE)
 
 This is a user interface for The Movie Database search API written in Angular 4.
 
