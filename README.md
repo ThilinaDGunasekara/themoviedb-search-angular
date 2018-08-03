@@ -1,7 +1,8 @@
 # The Movie Database API search UI
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/mar753/themoviedb-search-angular/master/LICENSE)
 
-This is a user interface for The Movie Database search API written in Angular 4.
+This is a user interface for The Movie Database search API written in Angular 4. Check out exactly the same project written using React library: https://github.com/mar753/themoviedb-search-react
+
 
 ## About the project
 
